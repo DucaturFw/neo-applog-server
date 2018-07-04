@@ -3,7 +3,7 @@ import yargs from "yargs"
 import path from "path"
 import { getTx } from "./tx"
 
-let { d: DIR, p: PORT } = yargs
+let { d: DIR, p: PORT } = yargs(process.argv)
 	.coerce('dir', path.resolve)
 	.option('d', {
 		alias: "dir",

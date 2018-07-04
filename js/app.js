@@ -43,7 +43,7 @@ var express_1 = __importDefault(require("express"));
 var yargs_1 = __importDefault(require("yargs"));
 var path_1 = __importDefault(require("path"));
 var tx_1 = require("./tx");
-var _a = yargs_1.default
+var _a = yargs_1.default(process.argv)
     .coerce('dir', path_1.default.resolve)
     .option('d', {
     alias: "dir",
