@@ -31,6 +31,20 @@ app.get('/tx/:txid', async (req, res) =>
 		.then(tx => res.json({ tx }))
 		.catch(err => res.json({ error: err }))
 })
+app.get('/txs/:txids', async (req, res) =>
+{
+	let { txids } = req.params as { txids: string }
+	if (!txids)
+		return res.send(400)
+	
+	let txs = txids.split(',')
+	Promise
+		.all(txs.map(id => getTx(DIR, id)
+			.then(log => ({ log: JSON.parse(log), id }))))
+		.then(logs => logs.reduce((txs, cur) => (txs[cur.id] = cur.log, txs), <any>{}))
+		.then(txs => res.json({ txs }))
+		.catch(error => res.json({ error }))
+})
 
 console.log(`running applog server for ${DIR}`)
 app.listen(PORT, () =>
